@@ -31,15 +31,17 @@
 
 				<div id="dept_search">
 					{% for d in deps %}
-						<input type="submit" name="submit" value="{{ d }}">
+						<input type="submit" onsubmit="{{ url_for('get_profs') }}" name="submit" value="{{ d }}">
 					{% endfor %}
+					<input name="selected_dep" value="{{ selected_dep }}" style="visibility: hidden;">
 				</div>
 				<div id="prof_search">
+					
 					{% for p in profs %}
-						<input type="submit" name="{{ selected_dep }}.submit" value="{{ p }}">
+						<input type="submit" name="submit" value="{{ p }}">
 					{% endfor %}
-				</div>				
-				Instructor: <input value='{{ selected_prof }}'> </input>
+				</div>			
+
 				</form>
 				
 
@@ -53,6 +55,15 @@
 							<th>Syllabus Available?</th>
 							<th>Learning Outcomes?</th>
 						</tr>
+						{% for c in profs_courses %}
+						<tr>
+							<th>{{ c.dep }}</th>
+							<th>{{ c.course_num }}</th>
+							<th>{{ c.title }}</th>
+							<th>{{ c.syllabus_link }}</th>
+							<th>Learning outcomes</th>
+						</tr>
+						{% endfor %}
 					</table>
 					<img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/chevron-left.png" class="return_arrow" onclick="hideStatBox()">
 				</div>

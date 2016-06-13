@@ -35,45 +35,61 @@ def manage_form():
     
     profList = []
     courseList = []
+    #for dc in dep_courses:
+	#profSet.add(dc.instructor.strip())
+    #for ps in profsSet:
+	#profList.append(ps)
+    #profList.sort()     
+
+    
     logging.warning("ALL MY BUTTONS")
     logging.warning(request.form)
+    
+   
     if request.method == 'POST':
-	
-	if 'submit' not in request.form:
-	    logging.warning("NOPE")
-	if 'submit' in request.form:
-	    logging.warning("YUP")
-	if '.submit' in request.form:
-	    logging.warning("WHHHHH")
 	
 	sub = request.form['submit']
 	logging.warning(sub)
+	logging.warning(request.form.get(sub+".submit"))
 	
 	if sub in depsList:    
+	    #here
 	    dep_courses = Course.query.filter_by(dep=sub).all()
 	    profSet = set()
 	    for dc in dep_courses:
 		profSet.add(dc.instructor.strip())
 	    for ps in profSet:
 		profList.append(ps)
-	    profList.sort()  
-	    
+	    profList.sort()  		    
 	    return render_template("syllabi_manager.html", deps=depsList, 
-		                   profs=profList, courses=courseList, selected_dep=sub, selected_prof="")	
-	logging.warning("WEIRD FORM")
-	logging.warning(request.form)
-	
+		                   profs=profList, courses=courseList, 
+	                           selected_dep=sub, selected_prof="", 
+	                           profs_courses="")	
+
 	if sub in profsSet:
 	    logging.warning("we've clicked a person!")
-	    #dep = request.form['selected_dep']
 	    logging.warning(request.form)
 	    logging.warning(dep)
+	    
+	    dep_courses = Course.query.filter_by(dep=request.form['selected_dep']).all()
+	    profSet = set()
+	    for dc in dep_courses:
+		profSet.add(dc.instructor.strip())
+	    for ps in profSet:
+		profList.append(ps)
+	    profList.sort() 
+	    
+	    profs_courses = Course.query.filter_by(dep=request.form['selected_dep']).filter_by(instructor=sub).all()
+	    
 	    return render_template("syllabi_manager.html", deps=depsList, 
-			               profs=profList, courses=courseList, selected_dep=dep, selected_prof=sub)		
+			               profs=profList, courses=courseList, 
+	                               selected_dep=dep, selected_prof=sub, 
+	                               profs_courses=profs_courses)		
 	
     
     return render_template("syllabi_manager.html", deps=depsList, 
-                           profs=profList, courses=[], selected_dep="", selected_prof="")
+                           profs=[], courses=[], selected_dep="", 
+                           selected_prof="", profs_courses="")
 
 
 @app.route("/dept")
