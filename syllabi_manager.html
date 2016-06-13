@@ -1,0 +1,68 @@
+<!DOCTYPE>
+<html>
+	<header>
+		<link rel="stylesheet" type="text/css" href={{url_for('static',filename='syl_manager.css')}}>
+		<script type="text/javascript" src={{url_for('static', filename='manager_java.js')}}></script>
+		<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+
+	</header>
+
+	<body>
+	
+		<div id="main_body">
+			<div id="login_info">
+			<p id="login_id">You are logged in as: Ashley Alexander-Lee</p>
+			<a href="search.html" id="logout">Logout</a>
+			</div>
+			
+			<h2 style="text-align:center;padding-top:40px;padding-bottom:50px;">Syllabi Manager</h2>
+			<div id="quick_info">
+				<table>
+					<tr>
+						<td>No. Syllabi Outstanding:<br><p class="answers"><span class="first">0</span><span class="second">See All</span></p></td>
+						<td>No. Professors Missing Syllabi:<br><p class="answers"><span class="first">0</span><span class="second">See All</span></p></td>
+						<td>% Syllabi Outstanding:<br><p class="answers"><span class="first">0%</span><span class="second">See All</span></p></td>
+						<td>No. Departments Missing Syllabi:<br><p class="answers"><span class="first">0</span><span class="second">See All</span></p></td>
+					</tr>
+				</table>		
+			</div>
+			
+			<form action="{{ url_for('manage_form') }}" method="post" enctype="multipart/form-data">
+
+				<div id="dept_search">
+					{% for d in deps %}
+						<input type="submit" name="submit" value="{{ d }}">
+					{% endfor %}
+				</div>
+				<div id="prof_search">
+					{% for p in profs %}
+						<input type="submit" name="{{ selected_dep }}.submit" value="{{ p }}">
+					{% endfor %}
+				</div>				
+				Instructor: <input value='{{ selected_prof }}'> </input>
+				</form>
+				
+
+				
+				<div id="syl_status_box">
+					<table>
+						<tr>
+							<th>Dept</th>
+							<th>No.</th>
+							<th>Title</th>
+							<th>Syllabus Available?</th>
+							<th>Learning Outcomes?</th>
+						</tr>
+					</table>
+					<img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/chevron-left.png" class="return_arrow" onclick="hideStatBox()">
+				</div>
+				<br>
+				<div id="only_missing_dept">
+					<input type="checkbox" value="Only show departments with missing syllabi">Only show departments with missing syllabi
+				</div>
+				<div id="only_missing_prof">
+					<input type="checkbox" value="Only show professors with missing syllabi">Only show professors with missing syllabi
+				</div>			</div>
+		
+	</body>
+</html>
