@@ -19,9 +19,9 @@
 			<div id="quick_info">
 				<table>
 					<tr>
-						<td>No. Syllabi Outstanding:<br><p class="answers"><span class="first">0</span><span class="second">See All</span></p></td>
-						<td>No. Professors Missing Syllabi:<br><p class="answers"><span class="first">0</span><span class="second">See All</span></p></td>
-						<td>% Syllabi Outstanding:<br><p class="answers"><span class="first">0%</span><span class="second">See All</span></p></td>
+						<td>No. Syllabi Outstanding:<br><p class="answers"><span class="first">{{ miss_syl }}</span><span class="second">See All</span></p></td>
+						<td>No. Professors Missing Syllabi:<br><p class="answers"><span class="first">{{ miss_prof }}</span><span class="second">See All</span></p></td>
+						<td>% Syllabi Outstanding:<br><p class="answers"><span class="first">{{ syll_percent }}%</span><span class="second">See All</span></p></td>
 						<td>No. Departments Missing Syllabi:<br><p class="answers"><span class="first">0</span><span class="second">See All</span></p></td>
 					</tr>
 				</table>		
@@ -33,27 +33,46 @@
 					{% for d in deps %}
 						<input type="submit" name="submit" value="{{ d }}">
 					{% endfor %}
+					<input name="selected_dep" value="{{ selected_dep }}" style="visibility: hidden;">
 				</div>
 				<div id="prof_search">
 					{% for p in profs %}
-						<input type="submit" name="{{ selected_dep }}.submit" value="{{ p }}">
+						<input type="submit" name="submit" value="{{ p }}">
 					{% endfor %}
-				</div>				
-				Instructor: <input value='{{ selected_prof }}'> </input>
-				</form>
-				
+				</div>			
 
 				
+				
+
+				{% if profs_courses != "" %}
+
 				<div id="syl_status_box">
 					<table>
 						<tr>
 							<th>Dept</th>
 							<th>No.</th>
 							<th>Title</th>
+							<th>Section</th>
+							<th>Day</th>
+							<th>Time</th>
 							<th>Syllabus Available?</th>
 							<th>Learning Outcomes?</th>
 						</tr>
+						
+						{% for c in profs_courses %}
+						<tr>
+							<th>{{ c.dep }}</th>
+							<th>{{ c.course_num }}</th>
+							<th>{{ c.title }}</th>
+							<th>{{ c.class_section }}</th>
+							<th>{{ c.class_days }}</th>
+							<th>{{ c.class_time }}</th> 
+							<th>{{ c.syllabus_link }}</th>
+							<th>Learning outcomes</th>
+						</tr>
+						{% endfor %}
 					</table>
+					
 					<img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/chevron-left.png" class="return_arrow" onclick="hideStatBox()">
 				</div>
 				<br>
@@ -62,7 +81,10 @@
 				</div>
 				<div id="only_missing_prof">
 					<input type="checkbox" value="Only show professors with missing syllabi">Only show professors with missing syllabi
-				</div>			</div>
+				</div>			
+				</div>
+				{% endif %}
+				</form>
 		
 	</body>
 </html>

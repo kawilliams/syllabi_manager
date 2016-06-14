@@ -65,14 +65,14 @@ def read_csv(filename):
                 line[DIST] = line[DIST].replace(
                     '\r\n', '')   
                 courses.append(line)
-            
+
     return courses
 
 ##########################################################################
 
 app = Flask(__name__, template_folder = 'templates')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///16-17coursesTeam.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///16-17courses.db'
 app.config['SECRET_KEY'] = 'secret'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
@@ -131,8 +131,9 @@ class Course(db.Model):
 	
 def build_db(courses):
     db.create_all()
-    
+    count = 0
     for c in courses:	
+	count += 1
 	course = Course(c[SECTION_TITLE], c[SUB], c[NUM], c[TIMES], 
 	                c[SECT], c[BLDG]+" "+c[ROOM], c[DAYS].replace(" ",''), 
 	                c[PROF], c[TERM], c[MAX_ENROLL], c[DIST], 
@@ -140,14 +141,15 @@ def build_db(courses):
 	db.session.add(course)
 	
     db.session.commit()
-
+    print "CSV COUNT = " + str(count)
     return
 
 
 @app.route('/', methods=['GET','POST'])        
 def index():
     courses = Course.query.all()
-    return render_template('show_all.html', courses=courses)
+    logging.warning(len(courses))
+    return render_template('show_all_sylman.html', courses=courses)
 
 def main():
     #filename = "static/16-17_schedule.csv"

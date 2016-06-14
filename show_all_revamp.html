@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <link rel="stylesheet" type="text/css" href={{url_for('static',filename='upload.css')}}>
+        <title>Revamp</title>
+    </head>
+
+	
+	<body>
+		
+		<h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
+		<hr />
+		{%- for message in get_flashed_messages() %}
+			{{ message }}
+		{%- endfor %}
+		
+		<div id="database">
+		<h3 style="color: white;"> Syllabus(<a style="color: white;" href="{{ url_for('get_courses') }}"> Add syllabus </a>) </h3>
+		Add prereqs once we have that info (currently not on csv)
+		<table style="border: 3px;">
+			<thead>				
+				<tr>
+					<th name="title">Title</th>
+					<th name="dep">Dept</th>
+					<th name="course_num">Crs</th>
+					<th name="class_time">Time</th>
+					<th name="class_section">Sec</th>
+					<th name="class_place">Place</th>
+					<th name="class_days">Days</th>
+					<th name="instructor">Instructor</th>
+					<th name="acad_period">Acad Period</th>
+					<th name="max_enroll">Max Enroll</th>
+					<th name="dist">Dist</th>
+					<th name="CRN">CRN</th>			
+					<th name="syllabus_link">Syllabus</th>
+					<th name="visitable">Visitable</th>
+					<th name="privacy">Privacy</th>
+				</tr>
+			</thead>	
+			<tbody>
+				{% for c in courses %}
+					
+					<tr>
+						<td name="title{{loop.index0}}">{{ c.title }}</td>
+						<td name="dep{{loop.index0}}">{{ c.dep }}</td>
+						<td name="course_num{{loop.index0}}">{{ c.course_num }}</td>
+						<td name="class_time{{loop.index0}}">{{ c.class_time }}</td>
+						<td name="class_section{{loop.index0}}">{{ c.class_section }}</td>
+						<td name="class_place{{loop.index0}}">{{ c.class_place }}</td>
+						<td name="class_days{{loop.index0}}">{{ c.class_days }}</td>
+						<td name="instructor{{loop.index0}}">{{ c.instructor }}</td>
+						<td name="acad_period{{loop.index0}}">{{ c.acad_period }}</td>
+						<td name="max_enroll{{loop.index0}}">{{ c.max_enroll }}</td>
+						<td name="dist{{loop.index0}}">{{ c.dist }}</td>	
+						<td name="CRN{{loop.index0}}">{{ c.CRN }}</td>
+						<td name="syllabus_link{{loop.index0}}">
+							<a href="{{url_for('download', filename=c.syllabus_link) }}">{{ c.syllabus_link }}</a></td>										<td name="visitable{{loop.index0}}">{{ c.visitable }}</td>
+						<td name="privacy{{loop.index0}}">{{ c.privacy }}</td>
+											
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+			
+	</body>
+</html>
